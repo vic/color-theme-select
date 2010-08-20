@@ -479,10 +479,15 @@ require.def 'emacs', requires,
 
     $('.save').live 'click', (event)->
        event.preventDefault()
+       loc = "#{location.protocol}//#{location.host}#{location.pathname}"
+       gen = "Generated with #{loc} on #{new Date()}"
+       current_theme.model.docs.unshift gen
        html = lisp current_theme.model,
           open: (cls)->
             if cls == 'pre'
               "<pre id='dump-theme>'"
+            else if cls == 'doc'
+              "<span id='doc' class='doc'>"
             else
               "<span class='#{cls}'>"
           close: (cls)->
@@ -491,16 +496,18 @@ require.def 'emacs', requires,
           header: (buffer, theme, htmlized)->
             buffer.push "<span class='comment'>"
             buffer.push """
-            ;; <span class='theme-name'>#{current_theme.model.name}</span> generated on #{new Date()}
-            ;;
-            ;; <span id='loading'>Creating gist.. please wait</span>
-            ;; <span id='reload'>
-            ;;   <span class='custom-invalid'>Warning: theme has changed</span>
-            ;;   <button class='save custom-button'>(revert-buffer)</button>
-            ;; </span>
-            ;; <span id='shares'>
-            ;;   <a id='gist-download-el' class='link'>Download</a> | <a id='gist-load' class='link'>Permalink</a> | <a id='gist-link' class='link' target='_blank'>Gist</a> | <a id='share-this' class='link'>Share</a> | <a id='contrib' class='link' title='Send a mail to vic.borja@gmail.com with the gist id for this theme'>Contribute</a>
-            ;; </span>
+;; <span class='theme-name'>#{current_theme.model.name}</span> #{gen}
+;; You can edit the theme name or the documentation by hovering over them.
+;; Be sure to add your name and email if you want to contribute this theme.
+;;
+;; <span id='loading'>Creating gist.. please wait</span>
+;; <span id='reload'>
+;;   <span class='custom-invalid'>Warning: theme has changed</span>
+;;   <button class='save custom-button'>(revert-buffer)</button>
+;; </span>
+;; <span id='shares'>
+;;   <a id='gist-download-el' class='link'>Download</a> | <a id='gist-load' class='link'>Permalink</a> | <a id='gist-link' class='link' target='_blank'>Gist</a> | <a id='share-this' class='link'>Share</a> | <a id='contrib' class='link' title='Send a mail to vic.borja@gmail.com with the gist id for this theme'>Contribute</a>
+;; </span>
             """
             buffer.push "</span>"
        $('#current-buffer').html(html)
@@ -533,6 +540,44 @@ require.def 'emacs', requires,
             $('#share-this').text("Share #{name}")
             $('#shares').show()
             $('#loading').hide()
+       old_name = null
+       $('.function-name > .theme-name').live 'mouseover', (event)->
+         event.preventDefault()
+         text = $('<input>').addClass('function-name').addClass('flatInput')
+         old_name = $(this).text()
+         text.val old_name
+         $(this).replaceWith(text)
+         text.focus()
+       $('input.function-name').live 'mouseout', (event)->
+         span = $('<span>').addClass('theme-name')
+         txt = $(this).val()
+         span.text txt
+         $(this).replaceWith(span)
+         if old_name != txt
+           current_theme.name = txt
+           current_theme.model.name = txt
+           $('span.theme-name').text txt
+           $('input.theme-name').trigger 'themeChanged'
+
+       old_doc = null
+       $('span#doc').live 'mouseover', (event)->
+         event.preventDefault()
+         area = $('<textarea id="doc" cols="80" rows="5" />')
+         area.addClass('flatInput').addClass('doc')
+         area.css('border-width', 'thin').css('border-style', 'dotted')
+         old_doc = $(this).text()
+         area.val old_doc
+         $(this).replaceWith(area)
+         area.focus()
+       $('textarea#doc').live 'mouseout', (event)->
+         event.preventDefault()
+         span = $('<span id="doc" class="doc" />')
+         val = $(this).val()
+         val = "\"Generated at #{new Date()}\"" if val == ''
+         span.text val
+         $(this).replaceWith(span)
+         if old_doc != val
+           $('input.theme-name').trigger 'themeChanged'
 
     $('a.select-face-at-point').click (event)->
       event.preventDefault()
@@ -583,14 +628,18 @@ require.def 'emacs', requires,
     $('#themes select.theme-coll').change (event)->
         showThemeList($(this).val())
 
-    $('input.theme-name').bind
-      keyup: (event)->
-        $('span.theme-name').text $(this).val()
+    $('input.theme-name').live 'keyup', (event)->
+        name = $(this).val()
+        current_theme.name = name
+        current_theme.model.name = name
+        $('span.theme-name').text name
         if event.keyCode == 13
           $('#save').trigger('click')
-          $(this).trigger 'themeLoaded'
+          $('input.theme-name').trigger 'themeLoaded'
         else
-          $(this).trigger 'themeChanged'
+          $('input.theme-name').trigger 'themeChanged'
+
+    $('input.theme-name').bind
       themeLoaded: (event, hash)->
         $('span.modified').text '%%'
         location.hash = hash
@@ -598,6 +647,7 @@ require.def 'emacs', requires,
         $('span.modified').text '**'
         $('#current-buffer #shares').hide()
         $('#current-buffer #reload').show()
+
 
     loadBase()
     console.debug "Loaded emacs, current theme: ", current_theme
