@@ -557,11 +557,20 @@ parent='" + (parent) + "' class='speedbar-" + (face) + "-face'>" + (key) + "</a>
         return installTheme(theme, clear);
       });
       $('.save').live('click', function(event) {
-        var html;
+        var gen, html, loc, old_doc, old_name;
         event.preventDefault();
+        loc = ("" + (location.protocol) + "//" + (location.host) + (location.pathname));
+        gen = ("Generated with " + (loc) + " on " + (new Date()));
+        current_theme.model.docs.unshift(gen);
         html = lisp(current_theme.model, {
           open: function(cls) {
-            return cls === 'pre' ? "<pre id='dump-theme>'" : ("<span class='" + (cls) + "'>");
+            if (cls === 'pre') {
+              return "<pre id='dump-theme>'";
+            } else if (cls === 'doc') {
+              return "<span id='doc' class='doc'>";
+            } else {
+              return "<span class='" + (cls) + "'>";
+            }
           },
           close: function(cls) {
             cls || (cls = "span");
@@ -569,12 +578,12 @@ parent='" + (parent) + "' class='speedbar-" + (face) + "-face'>" + (key) + "</a>
           },
           header: function(buffer, theme, htmlized) {
             buffer.push("<span class='comment'>");
-            buffer.push(";; <span class='theme-name'>" + (current_theme.model.name) + "</span> generated on " + (new Date()) + "\n;;\n;; <span id='loading'>Creating gist.. please wait</span>\n;; <span id='reload'>\n;;   <span class='custom-invalid'>Warning: theme has changed</span>\n;;   <button class='save custom-button'>(revert-buffer)</button>\n;; </span>\n;; <span id='shares'>\n;;   <a id='gist-download-el' class='link'>Download</a> | <a id='gist-load' class='link'>Permalink</a> | <a id='gist-link' class='link' target='_blank'>Gist</a> | <a id='share-this' class='link'>Share</a> | <a id='contrib' class='link'>Contribute</a>\n;; </span>");
+            buffer.push(";; <span class='theme-name'>" + (current_theme.model.name) + "</span> " + (gen) + "\n;; You can edit the theme name or the documentation by hovering over them.\n;; Be sure to add your name and email if you want to contribute this theme.\n;;\n;; <span id='loading'>Creating gist.. please wait</span>\n;; <span id='reload'>\n;;   <span class='custom-invalid'>Warning: theme has changed</span>\n;;   <button class='save custom-button'>(revert-buffer)</button>\n;; </span>\n;; <span id='shares'>\n;;   <a id='gist-download-el' class='link'>Download</a> | <a id='gist-load' class='link'>Permalink</a> | <a id='gist-link' class='link' target='_blank'>Gist</a> | <a id='share-this' class='link'>Share</a> | <a id='contrib' class='link' title='Send a mail to vic.borja@gmail.com with the gist id for this theme'>Contribute</a>\n;; </span>");
             return buffer.push("</span>");
           }
         });
         $('#current-buffer').html(html);
-        return _.defer(function() {
+        _.defer(function() {
           return $.ajax({
             type: 'POST',
             url: '/gist',
@@ -608,6 +617,53 @@ parent='" + (parent) + "' class='speedbar-" + (face) + "-face'>" + (key) + "</a>
               return $('#loading').hide();
             }
           });
+        });
+        old_name = null;
+        $('.function-name > .theme-name').live('mouseover', function(event) {
+          var text;
+          event.preventDefault();
+          text = $('<input>').addClass('function-name').addClass('flatInput');
+          old_name = $(this).text();
+          text.val(old_name);
+          $(this).replaceWith(text);
+          return text.focus();
+        });
+        $('input.function-name').live('mouseout', function(event) {
+          var span, txt;
+          span = $('<span>').addClass('theme-name');
+          txt = $(this).val();
+          span.text(txt);
+          $(this).replaceWith(span);
+          if (old_name !== txt) {
+            current_theme.name = txt;
+            current_theme.model.name = txt;
+            $('span.theme-name').text(txt);
+            return $('input.theme-name').trigger('themeChanged');
+          }
+        });
+        old_doc = null;
+        $('span#doc').live('mouseover', function(event) {
+          var area;
+          event.preventDefault();
+          area = $('<textarea id="doc" cols="80" rows="5" />');
+          area.addClass('flatInput').addClass('doc');
+          area.css('border-width', 'thin').css('border-style', 'dotted');
+          old_doc = $(this).text();
+          area.val(old_doc);
+          $(this).replaceWith(area);
+          return area.focus();
+        });
+        return $('textarea#doc').live('mouseout', function(event) {
+          var span, val;
+          event.preventDefault();
+          span = $('<span id="doc" class="doc" />');
+          val = $(this).val();
+          if (val === '') {
+            val = ("\"Generated at " + (new Date()) + "\"");
+          }
+          span.text(val);
+          $(this).replaceWith(span);
+          return old_doc !== val ? $('input.theme-name').trigger('themeChanged') : null;
         });
       });
       $('a.select-face-at-point').click(function(event) {
@@ -661,16 +717,20 @@ To customize a face click on its name. \
       $('#themes select.theme-coll').change(function(event) {
         return showThemeList($(this).val());
       });
+      $('input.theme-name').live('keyup', function(event) {
+        var name;
+        name = $(this).val();
+        current_theme.name = name;
+        current_theme.model.name = name;
+        $('span.theme-name').text(name);
+        if (event.keyCode === 13) {
+          $('#save').trigger('click');
+          return $('input.theme-name').trigger('themeLoaded');
+        } else {
+          return $('input.theme-name').trigger('themeChanged');
+        }
+      });
       $('input.theme-name').bind({
-        keyup: function(event) {
-          $('span.theme-name').text($(this).val());
-          if (event.keyCode === 13) {
-            $('#save').trigger('click');
-            return $(this).trigger('themeLoaded');
-          } else {
-            return $(this).trigger('themeChanged');
-          }
-        },
         themeLoaded: function(event, hash) {
           $('span.modified').text('%%');
           return (location.hash = hash);

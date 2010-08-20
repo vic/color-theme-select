@@ -56,10 +56,12 @@
         buffer.push(htmlized.close());
         buffer.push("");
       }
+      buffer.push("(" + htmlized.open('keyword') + 'require' + htmlized.close() + " '" + htmlized.open('constant') + 'color-theme' + htmlized.close() + ")");
+      buffer.push("");
       buffer.push("(" + htmlized.open('keyword') + 'defun' + htmlized.close() + ' ' + htmlized.open('function-name') + htmlized.open('theme-name') + theme.name + htmlized.close() + htmlized.close() + ' ()');
       buffer.push("  " + htmlized.open('doc') + '"' + _(theme.docs).join("  \n") + '"' + htmlized.close());
       buffer.push("  (interactive)");
-      buffer.push("  (color-theme-install)");
+      buffer.push("  (color-theme-install");
       buffer.push("    \'(" + htmlized.open('theme-name') + theme.name + htmlized.close());
       parseParams("      ", theme, theme.params, buffer, htmlized);
       parseParams("      ", theme, theme.args, buffer, htmlized);
@@ -67,6 +69,8 @@
       buffer.push("     )");
       buffer.push("  )");
       buffer.push(")");
+      buffer.push("");
+      buffer.push("(" + htmlized.open('keyword') + 'provide' + htmlized.close() + " '" + htmlized.open('constant') + theme.name + htmlized.close() + ")");
       return _(buffer).join("\n");
     };
     parseFaces = function(space, theme, faces, buffer, htmlized) {
