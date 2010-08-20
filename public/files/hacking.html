@@ -1,0 +1,141 @@
+<pre>
+<span class="org-level-1">* Hacking</span>
+
+<span class="org-level-2">** Luke, Use the Source</span>
+
+Code for this site is located at <a href="http://github.com/vic/color-theme-select" class="org-link">http://github.com/vic/color-theme-select</a> 
+
+<span class="org-level-2">** Devel Roadmap</span>
+
+An overview of how to develop this site and tools available in the 
+source code repository.
+
+If all you need to know is how to dump an existing color-theme to 
+json format for inclusion in this site, skip to the section:
+              "Dumping your theme to JSON" 
+
+<span class="org-level-3">*** How Things work</span>
+
+Everything starts with existing color-themes .el files.
+
+<span class="org-level-4">**** Tools</span>
+
+The source distribution includes tools for dumping those emacs lisp
+files into json format that is more suitable for this site runtime.
+Most of the hard work is done with json.el and color-theme.el itself.
+
+The site-lisp/dump-theme.el file is responsable for dumping existing
+color themes to json format. A thin shell wrapper bin/dump-theme.sh 
+provides comments on how to use it from the command line.
+
+There's also a site-lisp/dump-light.el that can be used to generate
+a theme for light/dark backgrounds without any theme customization.
+The bin/dump-light.sh utility is used to generate the default 
+            color-theme-light, color-theme-dark 
+themes used as default ones this site.
+
+Tools used to build this project include <a href="http://www.gnu.org/software/emacs/" class="org-link">emacs</a>, <a href="http://rake.rubyforge.org/" class="org-link">rake</a>, <a href="http://www.mozilla.org/rhino/" class="org-link">rhino</a>
+
+<span class="org-level-4">**** Coffee </span>
+
+The core behind this site is just a set of javascript libraries 
+mostly coded in <a href="http://jashkenas.github.com/coffee-script/" class="org-link">coffeescript</a> and located in the coffee/ directory
+on the source distribution.
+
+This site uses <a href="http://requirejs.org/" class="org-link">requirejs</a>, <a href="http://lesscss.org/" class="org-link">less</a>, <a href="http://jquery.org" class="org-link">jquery</a>, <a href="http://www.eyecon.ro/colorpicker/" class="org-link">colorpicker</a>, and a 
+catalog of colors from <a href="http://www.colorjack.com/labs/galaxy/" class="org-link">Color Galaxy</a>.
+
+<span class="org-level-4">**** Htmlized Files</span>
+
+Example files like this were written in the corresponding major mode
+and then htmlized with the <span class="org-link">htmlize-buffer</span> function, only the html 
+inside the &lt;pre&gt; tag is saved under a file in public/files/.
+These htmlized files dont include css styling, because that will be
+loaded dynamically by this site according to the selected theme.
+The public/files.json file describes the tree to build the speedbar.
+
+
+<span class="org-level-2">** Dumping your theme to JSON</span>
+
+You don't need to checkout all the source just to dump your current
+lovely color theme to JSON.
+
+Just download this file:
+
+<a href="http://github.com/vic/color-theme-select/raw/master/site-lisp/dump-theme.el" class="org-link">http://github.com/vic/color-theme-select/raw/master/site-lisp/dump-theme.el</a>
+
+And execute the following command line: 
+
+    env DUMP_THEME_JSON=my-theme.json \
+    emacs --no-init-file --no-site-file -f toggle-debug-on-error \
+    -l dump-theme.el -l my-theme.el -f my-theme -f kill-emacs
+
+Just replace my-theme.json by the output file you want, my-theme.el
+by the emacs lisp source where your theme is included and my-theme
+by the function name used to install your theme.
+
+
+<span class="org-level-3">*** Contribute</span>
+
+If you have an awesome color theme, json it and send it to <a href="mailto:vic.borja@gmail.com" class="org-link">vic</a>
+
+<span class="org-level-2">** Development Environment</span>
+
+<span class="org-level-3">*** Required Tools</span>
+
+<a href="http://www.gnu.org/software/emacs/" class="org-link">emacs</a>        - Vic used emacs 23.1.1 on Ubuntu
+<a href="http://rake.rubyforge.org/" class="org-link">rake</a>         - The ruby build tool
+                                             Instal with `gem install rake`
+<a  href="http://www.mozilla.org/rhino/" class="org-link">rhino</a>        - JVM Javascript engine. Needs to be available on PATH as 'js'
+                                             Install with `apt-get install rhino`
+<a href="http://jashkenas.github.com/coffee-script/"  class="org-link">coffeescript</a> - Source for CoffeeScript. 
+               Include the CoffeeScript lib/ directory in NODE_PATH
+               Downloaded from github <a href="http://github.com/jashkenas/coffee-script">repo</a>
+<a href="http://nodejs.org" class="org-link">node</a>         - NodeJS for running the Coffee compiler
+               A binary snapshot is included in bin/node
+               Export binary location as NODE environment variable.
+               Downloaded from github <a href="http://github.com/ry/nodejs">repo</a>
+<a href="http://sinatrarb.com" class="org-link">sinatra</a>      - The Ruby we framework used for this site.
+               Installed with `gem install sinatra`
+<a href="http://rack.rubyforge.org" class="org-link">rack</a>         - Rackup
+               Installed with `gem install rack`
+
+<span class="org-level-3">*** Dumping all themes in a directory</span>
+
+Converting the themes in standard distribution.
+
+./bin/dump-themes.sh site-lisp/themes/standard public/themes/standard
+
+<span class="org-level-3">*** Theme catalog from directory</span>
+
+Create a json catalog of themes
+
+./bin/dump-desc.sh site-lisp/themes/standard \
+                   public/themes/standard.json \
+                   "Themes included in standard color-theme distribution"
+
+<span class="org-level-3">*** Rake Tasks</span>
+
+rake coffee  - Compile all coffee sources into the public/js directory.
+rake colors  - Obtain color databases from <a href="http://www.colorjack.com/labs/galaxy" class="org-link">http://www.colorjack.com/labs/galaxy</a>
+rake less:all - Transform all json themes to less stylesheets.
+
+<span class="org-level-3">*** Rackup </span>
+
+Start the devel.ru server with 
+ 
+    rackup devel.ru
+
+And browse to <a href="http://localhost:9292?console=true" class="org-link">http://localhost:9292/?console=true</a> 
+
+In development mode, all coffee scripts will be compiled as needed.
+The console=true query is to enable debugging for chrome and firebug consoles.
+
+
+<span class="org-level-2">** Production Deployment</span>
+
+This site is deployed using the awesome <a href="http://heroku.com" class="org-link">Heroku</a> services. 
+Only the needed javascript, html, less, images should be uploaded. 
+An special `heroku` branch exists for this purpose.
+
+</pre>

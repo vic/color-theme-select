@@ -2,7 +2,7 @@
   var requires;
   requires = ['console', 'colors', 'emacs/theme/normalize', 'emacs/theme/less', 'emacs/theme/lisp'];
   require.def('emacs', requires, function(console, colors, normalize, lezz, lisp) {
-    var $, JSON, _, _a, always, base_dark, base_light, buildFileList, collection, cumulative, current_theme, customizeFace, displayFileList, displayThemeList, download, downloadGistTheme, downloadLocalTheme, emacs, faceNameForElement, files, installTheme, linkHref, loadBase, loadFile, metaContent, setCumulativeState, setFaceAttribute, setFaceColor, setInitialTheme, setPickColor, setupThemeSearch, showThemeList, themes;
+    var $, JSON, _, _a, always, base_dark, base_light, buildFileList, collection, cumulative, current_theme, customizeFace, displayFileList, displayThemeList, download, downloadGistTheme, downloadLocalTheme, emacs, faceNameForElement, files, gup, installTheme, linkHref, loadBase, loadFile, metaContent, setCumulativeState, setFaceAttribute, setFaceColor, setInitialTheme, setPickColor, setupThemeSearch, showThemeList, themes;
     _a = [window._, window.$, window.JSON];
     _ = _a[0];
     $ = _a[1];
@@ -15,6 +15,14 @@
     base_dark = null;
     cumulative = false;
     current_theme = null;
+    gup = function(name) {
+      var regex, regexS, results, tmpURL;
+      regexS = "[\\?&]" + name + "=([^&#]*)";
+      regex = new RegExp(regexS);
+      tmpURL = window.location.href;
+      results = regex.exec(tmpURL);
+      return (results === null) ? null : results[1];
+    };
     download = function(url, callback) {
       var data;
       data = null;
@@ -47,9 +55,12 @@
     };
     emacs.loadGistTheme = function() {
       var match, url;
-      url = prompt("Enter Gist ID or URL");
+      url = prompt("Load a color-theme from GitHub Gist.\nEnter Gist ID or URL");
+      if (!(typeof url !== "undefined" && url !== null)) {
+        return null;
+      }
       match = url.match(/\d+/);
-      if (!(match)) {
+      if (!match || !match[0]) {
         return null;
       }
       return downloadGistTheme(match[0]);
@@ -139,8 +150,10 @@
       });
     };
     loadFile = function(file) {
-      var loc;
-      file = _.reduce(file.split('/'), files, function(fs, f) {
+      var loc, modeline, modes, name, path;
+      path = file.split('/');
+      name = path[path.length - 1];
+      file = _.reduce(path, files, function(fs, f) {
         return fs[f];
       });
       if (file.file) {
@@ -148,14 +161,24 @@
       }
       if (file.js) {
         loc = file.js.split('#');
-        return loc.length === 1 ? $('head').append(" \
-<script type='text/javascript' src='/files/" + (loc[0]) + "'/>") : $('head').append(" \
+        if (loc.length === 1) {
+          $('head').append(" \
+<script type='text/javascript' src='/files/" + (loc[0]) + "'/>");
+        } else {
+          $('head').append(" \
 <script type='text/javascript' lang='javascript'> \
 require(['" + (loc[0]) + "'], function(" + (loc[0]) + "){ \
 " + (loc[0]) + "." + (loc[1]) + "(); \
 }); \
 </script> \
 ");
+        }
+      }
+      if (file.file) {
+        modes = [file.major || ''];
+        modes = modes.concat(file.minors || []);
+        modeline = ("<span class='mode-line-buffer-id'>" + (name) + "</span>\n%7 L1 (" + (modes.join(' ')) + ")");
+        return $('#modeline-rest').html(modeline);
       }
     };
     emacs.selectRandomTheme = function() {
@@ -227,20 +250,23 @@ parent='" + (parent) + "' class='speedbar-" + (face) + "-face'>" + (key) + "</a>
       return setupThemeSearch();
     };
     setInitialTheme = function() {
-      var theme;
-      if (/#http/.test(location.hash)) {
-        theme = downloadRemoteTheme(location.hash.substring(1));
-      } else if (/#\d+/.test(location.hash)) {
-        theme = downloadGistTheme(location.hash.substring(1));
-      } else if (/#/.test(location.hash)) {
-        theme = downloadLocalTheme(location.hash.substring(1));
+      var gist, hash, meta;
+      if (/#\d+/.test(location.hash)) {
+        gist = location.hash.substring(1);
+        meta = downloadGistTheme(gist);
+        hash = gist;
+      } else if (("" + (location.hash)).length > 1) {
+        hash = location.hash.substring(1);
+        meta = downloadLocalTheme(hash);
       } else {
-        theme = downloadLocalTheme(metaContent('theme-default'));
+        meta = downloadLocalTheme(metaContent('theme-default'));
+        hash = meta.model.name;
       }
-      return installTheme(theme, true);
+      return installTheme(meta, true, hash);
     };
-    installTheme = function(meta, clear) {
+    installTheme = function(meta, clear, hash) {
       var base, css, faceNames, parent, theme;
+      hash || (hash = meta.model.name);
       base = meta.mode === 'dark' ? base_dark : base_light;
       if (!(meta.css)) {
         if (meta.less) {
@@ -283,7 +309,7 @@ parent='" + (parent) + "' class='speedbar-" + (face) + "-face'>" + (key) + "</a>
       });
       customizeFace('default');
       $('input.theme-name').trigger('themeChanged');
-      return $('input.theme-name').trigger('themeLoaded');
+      return $('input.theme-name').trigger('themeLoaded', hash);
     };
     customizeFace = function(name) {
       var _b, _c, bg, box_style, box_width, cls, colored, def, face, fg, match, sample;
@@ -543,7 +569,7 @@ parent='" + (parent) + "' class='speedbar-" + (face) + "-face'>" + (key) + "</a>
           },
           header: function(buffer, theme, htmlized) {
             buffer.push("<span class='comment'>");
-            buffer.push(";; <span class='theme-name'>" + (current_theme.model.name) + "</span> generated on " + (new Date()) + "\n;;\n;; <span id='loading'>Creating gist.. please wait</span>\n;; <span id='reload'>\n;;   <span class='custom-invalid'>Warning: theme has changed</span>\n;;   <button class='save custom-button'>(revert-buffer)</button>\n;; </span>\n;; <span id='shares'>\n;;   <a id='gist-download-el' class='custom-button'></a> | <a id='gist-load' class='link'>Permalink</a> | <a id='gist-link' class='link' target='_blank'>Gist</a> | <a id='share-this' class='custom-button'></a>\n;; </span>");
+            buffer.push(";; <span class='theme-name'>" + (current_theme.model.name) + "</span> generated on " + (new Date()) + "\n;;\n;; <span id='loading'>Creating gist.. please wait</span>\n;; <span id='reload'>\n;;   <span class='custom-invalid'>Warning: theme has changed</span>\n;;   <button class='save custom-button'>(revert-buffer)</button>\n;; </span>\n;; <span id='shares'>\n;;   <a id='gist-download-el' class='link'>Download</a> | <a id='gist-load' class='link'>Permalink</a> | <a id='gist-link' class='link' target='_blank'>Gist</a> | <a id='share-this' class='link'>Share</a> | <a id='contrib' class='link'>Contribute</a>\n;; </span>");
             return buffer.push("</span>");
           }
         });
@@ -561,10 +587,12 @@ parent='" + (parent) + "' class='speedbar-" + (face) + "-face'>" + (key) + "</a>
             },
             success: function(gist) {
               var name, st;
+              location.hash = gist;
               name = current_theme.model.name;
-              $('#gist-link').attr('href', "http://gist.github.com/" + (gist)).text('Gist');
-              $('#gist-download-el').attr('href', "/gist/" + (gist) + "/elisp/" + (name) + ".el").text('Download emacs-lisp');
-              $('#gist-load').attr('href', "/#" + (gist)).text('Permalink');
+              $('#gist-link').attr('href', "http://gist.github.com/" + (gist));
+              $('#gist-download-el').attr('href', "/gist/" + (gist) + "/elisp/" + (name) + ".el");
+              $('#gist-load').attr('href', "/#" + (gist));
+              $('#contrib').attr('href', "mailto:vic.borja@gmail.com?subject=color-theme-select contribution&body=Please include the theme saved in the following gist: " + (gist));
               if (typeof stWidget !== "undefined" && stWidget !== null) {
                 st = stWidget.addEntry({
                   service: 'sharethis',
@@ -643,8 +671,9 @@ To customize a face click on its name. \
             return $(this).trigger('themeChanged');
           }
         },
-        themeLoaded: function(event) {
-          return $('span.modified').text('%%');
+        themeLoaded: function(event, hash) {
+          $('span.modified').text('%%');
+          return (location.hash = hash);
         },
         themeChanged: function(event) {
           $('span.modified').text('**');

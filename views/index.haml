@@ -52,25 +52,37 @@
             'js/json2.js',
             ], function(emacs) { emacs.init(); })
 
-  -# :javascript
-  -#  var _gaq = _gaq || [];
-  -#  _gaq.push(['_setAccount', 'UA-18030191-1']);
-  -#  _gaq.push(['_trackPageview']);
-   
-  -#  (function() {
-  -#   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  -#   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  -#   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  -#  })();
+  :javascript
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-18030191-1']);
+   _gaq.push(['_trackPageview']);
 
-  -# %script(type="text/javascript" 
-  -#         src="http://w.sharethis.com/button/buttons.js")
-  -# :javascript
-  -#   stLight.options({      
-  -#     publisher: 'df2ffe92-2740-4dc9-aa18-3bfbf63efcc4' })
+   (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+
+  %script(type="text/javascript" 
+         src="http://w.sharethis.com/button/buttons.js")
+  :javascript
+     stLight.options({      
+       publisher: 'df2ffe92-2740-4dc9-aa18-3bfbf63efcc4' })
 
  %body#home
+  %div(style="position: absolute; top:10px; left: 10px")
+   %span.st_sharethis
+  %div(style="position: absolute; top:30px; left: 10px")
+   %span.st_twitter
+  %div(style="position: absolute; top:50px; left: 10px")  
+   %span.st_stumbleupon
+  %div(style="position: absolute; top:70px; left: 10px")
+   %span.st_reddit
+  %div(style="position: absolute; top:90px; left: 10px")
+   %span.st_delicious
+
   #wrapper
+
 
    #banner
     %h1.logo
@@ -85,23 +97,16 @@
       %a(target="_blank" href="http://github.com/vic/emacs-starter-kit") &hearts;
       %a(target="_blank" href="http://www.gnu.org/software/emacs") emacs
      %li
-      %a(target="_blank" href="http://www.nongnu.org/color-theme") (require 'color-theme)
+      %a(target="_blank" href="http://www.nongnu.org/color-theme") (require 'color-theme)     
      %li
-      %span.st_sharethis_hcount(displayText="Share")
-      %span.st_twitter
-      %span.st_stumbleupon
-      %span.st_reddit
-      %span.st_delicious
     .right
 
    #navigation
     .left
     %ul
      %li
-      %a.save
-       M-x <span class="theme-name"></span>
-     %li 
-      %a (contribute-theme)
+      %a.save(title="Generate emacs-lisp for this theme")
+       M-x <span class="theme-name">color-theme-select</span>     
     .right
 
    .frame.fringe
@@ -282,6 +287,8 @@
       .modeline.modeline-inactive.mode-line-inactive
        %span --:%%-
        %span#modeline-rest
+       %span#modeline-strike &nbsp;------------------------------------------------------------------------------------------------------------------------------------------------
+
 
     .minibuffer.default
      %span#save.save.minibuffer-prompt Save
@@ -302,7 +309,7 @@
      M-x 
      %a color-theme-select
     %br
-    %span 
-     2010 
-     %a Victor Hugo Borja.
+    %a 2010 Victor Hugo Borja. 
+    %br
+    %a vic.borja@gmail.com
 

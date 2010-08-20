@@ -20,13 +20,23 @@
  "java": {
    "qsort.java": {
      "title": "QuickSort kata",
-     "file": "java/qsort.html"
+     "file": "java/qsort.html",
+     "major": "Java"
    }
  },
  "ruby": {
    "99bottles.rb": {
      "title": "The famous song in ruby",
-     "file": "ruby/99bottles.rb.html"
+     "file": "ruby/99bottles.rb.html",
+     "major": "Ruby"
    }
- }
+ },
+ "Hacking": {
+    "file": "hacking.html",
+    "major": "Org"
+ },
+ "LICENSE": {
+    "file": "license.html",
+    "major": "Fundamental"
+  }
 }
