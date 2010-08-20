@@ -1,0 +1,531 @@
+.default {
+  background-color: #2e3434;
+  color: #eeeeec;
+}
+unknown {
+  // background-mode: dark;
+  // border-color: #888a85;
+  // cursor-color: #fce94f;
+  // mouse-color: #8ae234;
+  // help-highlight-face: underline;
+  // ibuffer-dired-buffer-face: font-lock-function-name-face;
+  // ibuffer-help-buffer-face: font-lock-comment-face;
+  // ibuffer-hidden-buffer-face: font-lock-warning-face;
+  // ibuffer-occur-match-face: font-lock-warning-face;
+  // ibuffer-read-only-buffer-face: font-lock-type-face;
+  // ibuffer-special-buffer-face: font-lock-keyword-face;
+  // ibuffer-title-face: font-lock-type-face;
+  // tool-tips:inherit:quote: variable-pitch;
+  //// tool-tips:inherit:undefined: undefined;
+  // tooltip:inherit:quote: variable-pitch;
+  //// tooltip:inherit:undefined: undefined;
+  // custom-button-mouse:inherit:quote: custom-button;
+  //// custom-button-mouse:inherit:undefined: undefined;
+  // custom-button-mouse-unraised:inherit:quote: custom-button-unraised;
+  //// custom-button-mouse-unraised:inherit:undefined: undefined;
+  // custom-button-pressed:inherit:quote: custom-button;
+  //// custom-button-pressed:inherit:undefined: undefined;
+  // custom-button-mouse-pressed-unraised:inherit:quote: custom-button-unraised;
+  //// custom-button-mouse-pressed-unraised:inherit:undefined: undefined;
+  // magit-item-highlight:inverse-video: true;
+}
+.highlight {
+  background-color: #8b2323;
+}
+.border {
+  background-color: #888a85;
+}
+.fringe {
+  background-color: #1a1a1a;
+}
+.mode-line {
+  color: #bbbbbc;
+  background-color: #222222;
+  border-width: 1;
+  border-color: transparent;
+  border-style: outset;
+}
+.mode-line-inactive {
+  color: #bbbbbc;
+  background-color: #555753;
+}
+.mode-line-buffer-id {
+  font-weight: bold;
+  color: #ffa500;
+}
+.region {
+  background-color: #483d8b;
+}
+.link {
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  color: #1e90ff;
+}
+.match {
+  font-weight: bold;
+  background-color: #e9b96e;
+  color: #2e3436;
+}
+.tool-tips {
+  color: #000000;
+  background-color: #ffffe0;
+}
+.tooltip {
+  color: #000000;
+  background-color: #ffffe0;
+}
+.bold {
+  font-weight: bold;
+}
+.italic {
+  font-style: italic;
+}
+.builtin {
+  color: #729fcf;
+}
+.comment {
+  color: #888a85;
+}
+.constant {
+  color: #8ae234;
+}
+.doc {
+  color: #888a85;
+}
+.keyword {
+  color: #729fcf;
+  font-weight: bold;
+}
+.string {
+  color: #ad7fa8;
+  font-style: italic;
+}
+.type {
+  color: #8ae234;
+  font-weight: bold;
+}
+.variable-name {
+  color: #ff6347;
+}
+.warning {
+  font-weight: bold;
+  foreground-color: #f57900;
+}
+.inspecting {
+  border-color: #f57900;
+}
+.function-name {
+  color: #edd400;
+  font-weight: bold;
+}
+.comint-highlight-input {
+  font-style: italic;
+  font-weight: bold;
+}
+.comint-highlight-prompt {
+  color: #8ae234;
+}
+.isearch {
+  background-color: #f57900;
+  color: #2e3436;
+}
+.isearch-lazy-highlight-face {
+  color: #2e3436;
+  background-color: #e9b96e;
+}
+.show-paren-match-face {
+  color: #2e3436;
+  background-color: #73d216;
+}
+.show-paren-mismatch-face {
+  background-color: #ad7fa8;
+  color: #2e3436;
+}
+.minibuffer-prompt {
+  color: #729fcf;
+  font-weight: bold;
+}
+.info-xref {
+  color: #729fcf;
+}
+.info-xref-visited {
+  color: #ad7fa8;
+}
+.diary-face {
+  font-weight: bold;
+  color: #cd5c5c;
+}
+.eshell-ls-clutter-face {
+  font-weight: bold;
+  color: #696969;
+}
+.eshell-ls-executable-face {
+  font-weight: bold;
+  color: #ff7f50;
+}
+.eshell-ls-missing-face {
+  font-weight: bold;
+  color: #000000;
+}
+.eshell-ls-special-face {
+  font-weight: bold;
+  color: #ffd700;
+}
+.eshell-ls-symlink-face {
+  font-weight: bold;
+  color: #ffffff;
+}
+.widget-button {
+  font-weight: bold;
+}
+.widget-mouse-face {
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #8b2323;
+}
+.widget-field {
+  color: #ffa500;
+  background-color: #4d4d4d;
+}
+.widget-single-line-field {
+  color: #ffa500;
+  background-color: #4d4d4d;
+}
+.custom-group-tag {
+  font-weight: bold;
+  color: #edd400;
+  font-size: 1.3;
+}
+.custom-variable-tag {
+  font-weight: bold;
+  color: #edd400;
+  font-size: 1.1;
+}
+.custom-face-tag {
+  font-weight: bold;
+  color: #edd400;
+  font-size: 1.1;
+}
+.custom-state-face {
+  color: #729fcf;
+}
+.custom-button {
+  border-width: 1;
+  border-style: outset;
+  background-color: #7f7f7f;
+  color: #000000;
+}
+.custom-button-mouse {
+  background-color: #999999;
+}
+.custom-button-unraised {
+  background-color: #7f7f7f;
+  color: #000000;
+}
+.custom-button-mouse-unraised {
+  background-color: #999999;
+}
+.custom-button-pressed {
+  border-style: inset;
+}
+.custom-button-mouse-pressed-unraised {
+  background-color: #999999;
+}
+.custom-documentation {
+  font-style: italic;
+}
+.message-cited-text {
+  color: #edd400;
+}
+.gnus-cite-face-1 {
+  color: #ad7fa8;
+}
+.gnus-cite-face-2 {
+  color: #8b4726;
+}
+.gnus-cite-face-3 {
+  color: #8b864e;
+}
+.gnus-cite-face-4 {
+  color: #668b8b;
+}
+.gnus-group-mail-1-empty-face {
+  color: #e0ffff;
+}
+.gnus-group-mail-1-face {
+  font-weight: bold;
+  color: #e0ffff;
+}
+.gnus-group-mail-2-empty-face {
+  color: #40e0d0;
+}
+.gnus-group-mail-2-face {
+  font-weight: bold;
+  color: #40e0d0;
+}
+.gnus-group-mail-3-empty-face {
+  color: #729fcf;
+}
+.gnus-group-mail-3-face {
+  font-weight: bold;
+  color: #edd400;
+}
+.gnus-group-mail-low-empty-face {
+  color: #1e90ff;
+}
+.gnus-group-mail-low-face {
+  font-weight: bold;
+  color: #1e90ff;
+}
+.gnus-group-news-1-empty-face {
+  color: #e0ffff;
+}
+.gnus-group-news-1-face {
+  font-weight: bold;
+  color: #e0ffff;
+}
+.gnus-group-news-2-empty-face {
+  color: #40e0d0;
+}
+.gnus-group-news-2-face {
+  font-weight: bold;
+  color: #40e0d0;
+}
+.gnus-group-news-3-empty-face {
+  color: #729fcf;
+}
+.gnus-group-news-3-face {
+  font-weight: bold;
+  color: #edd400;
+}
+.gnus-group-news-low-empty-face {
+  color: #1e90ff;
+}
+.gnus-group-news-low-face {
+  font-weight: bold;
+  color: #1e90ff;
+}
+.gnus-header-name-face {
+  font-weight: bold;
+  color: #729fcf;
+}
+.gnus-header-from {
+  font-weight: bold;
+  color: #edd400;
+}
+.gnus-header-subject {
+  color: #edd400;
+}
+.gnus-header-content {
+  font-style: italic;
+  color: #8ae234;
+}
+.gnus-header-newsgroups-face {
+  font-style: italic;
+  color: #8db6cd;
+  font-weight: bold;
+}
+.gnus-signature-face {
+  font-style: italic;
+  color: #a9a9a9;
+}
+.gnus-summary-cancelled-face {
+  background-color: #000000;
+  color: #ffff00;
+}
+.gnus-summary-high-ancient-face {
+  font-weight: bold;
+  color: rotal blue;
+}
+.gnus-summary-high-read-face {
+  font-weight: bold;
+  color: #32cd32;
+}
+.gnus-summary-high-ticked-face {
+  font-weight: bold;
+  color: #ff6347;
+}
+.gnus-summary-high-unread-face {
+  font-weight: bold;
+  color: #ffffff;
+}
+.gnus-summary-low-ancient-face {
+  font-style: italic;
+  color: #32cd32;
+}
+.gnus-summary-low-read-face {
+  font-style: italic;
+  color: #4169e1;
+}
+.gnus-summary-low-ticked-face {
+  font-style: italic;
+  color: #8b0000;
+}
+.gnus-summary-low-unread-face {
+  font-style: italic;
+  color: #ffffff;
+}
+.gnus-summary-normal-ancient-face {
+  color: #4169e1;
+}
+.gnus-summary-normal-read-face {
+  color: #32cd32;
+}
+.gnus-summary-normal-ticked-face {
+  color: #cd5c5c;
+}
+.gnus-summary-normal-unread-face {
+  color: #ffffff;
+}
+.gnus-summary-selected {
+  background-color: #8b2323;
+  color: #ffffff;
+}
+.message-header-name-face {
+  color: #ff6347;
+}
+.message-header-newsgroups-face {
+  font-style: italic;
+  color: #8db6cd;
+  font-weight: bold;
+}
+.message-header-other-face {
+  color: #8db6cd;
+}
+.message-header-xheader-face {
+  color: #1874cd;
+}
+.message-header-subject {
+  color: #ffffff;
+}
+.message-header-to {
+  color: #ffffff;
+}
+.message-header-cc {
+  color: #ffffff;
+}
+.org-hide {
+  color: #2e3436;
+}
+.org-level-1 {
+  font-weight: bold;
+  color: #1e90ff;
+  font-size: 1.5;
+}
+.org-level-2 {
+  color: #edd400;
+  font-size: 1.2;
+  font-weight: bold;
+}
+.org-level-3 {
+  font-weight: bold;
+  color: #6ac214;
+  font-size: 1;
+}
+.org-level-4 {
+  color: #ff6347;
+  font-size: 1;
+  font-weight: bold;
+}
+.org-date {
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  color: #cd00cd;
+}
+.org-footnote {
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  color: #cd00cd;
+}
+.org-link {
+  color: #7ec0ee;
+  background-color: #2e3436;
+}
+.org-special-keyword {
+  color: #a52a2a;
+}
+.org-verbatim {
+  color: #eeeeec;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  font-style: italic;
+}
+.org-block {
+  color: #bbbbbc;
+}
+.org-quote {
+  .org-block;
+  font-style: italic;
+}
+.org-verse {
+  .org-block;
+  font-style: italic;
+}
+.org-todo {
+  font-weight: bold;
+  color: #ff0000;
+}
+.org-done {
+  font-weight: bold;
+  color: #228b22;
+}
+.org-agenda-structure {
+  font-weight: bold;
+  color: #ff6347;
+}
+.org-agenda-date {
+  color: #6ac214;
+}
+.org-agenda-date-weekend {
+  font-weight: normal;
+  color: #1e90ff;
+}
+.org-agenda-date-today {
+  font-weight: bold;
+  color: #edd400;
+}
+.anything-header {
+  font-weight: bold;
+  background-color: #262626;
+  color: #edd400;
+}
+.ess-jb-comment-face {
+  background-color: #2e3436;
+  color: #b22222;
+  font-style: italic;
+}
+.ess-jb-hide-face {
+  background-color: #2e3436;
+  color: #243436;
+}
+.ess-jb-h1-face {
+  font-size: 1.6;
+  color: #1e90ff;
+  font-style: normal;
+}
+.ess-jb-h2-face {
+  font-size: 1.4;
+  color: #6ac214;
+  font-style: normal;
+}
+.ess-jb-h3-face {
+  font-size: 1.2;
+  color: #edd400;
+  font-style: normal;
+}
+.ecb-default-highlight-face {
+  background-color: #729fcf;
+}
+.ecb-tag-header-face {
+  background-color: #f57900;
+}
+.magit-header {
+  color: #edd400;
+}
+.magit-diff-add {
+  color: #729fcf;
+}
+.magit-item-highlight {
+  font-weight: extra-bold;
+}
+

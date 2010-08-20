@@ -1,0 +1,1 @@
+{"name": "color-theme-wheat","docs": ["Default colors on a wheat background.", "Calls the standard color theme function `color-theme-standard' in order", "to reset all faces."],"data": ["color-theme-wheat", {"background-color":"Wheat"}]}

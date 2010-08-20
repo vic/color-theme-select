@@ -1,0 +1,44 @@
+<span class="info-header-node">(color-theme-select)</span><br />
+<span class="info-title-1">Interactive color-theme preview and generator.</span><br />
+
+<div>
+  <img id="editor-logo" src="images/emacs6-128.png"/>
+  <div>
+   <p><a target="_blank" href="http://www.nongnu.org/color-theme/">color-theme</a> is an emacs-lisp mode for skinning your emacs.</p>
+   <p>This site will help you create your own color themes or preview and customize popular ones.</p>
+   <p>
+     Let every Jedi of the emacs order choose the colors of his <a target="_blank" href="http://bytebaker.com/2009/09/10/emacs-and-the-art-of-lightsaber-combat/">lightsaber</a>.
+   </p>
+  </div>
+</div>
+<br />
+<br />
+<span class="info-menu-header">* Usage:</span>
+<div>
+  As you can see, this site's GUI mimics an emacs window showing four buffers:<br/>
+
+  <span class="info-menu-star">*</span> <span class="info-xref">Color Theme Selection</span> The upper right buffer lists known color themes.<br/>
+  * <span class="info-xref">Customize Face</span> The upper left buffer for customizing most face attributes.<br />
+  * <span class="info-xref">Speedbar</span> Shows a list of htmlized files intended for theme preview.<br />
+  * <span class="info-xref">Mode Preview</span> Holds content for htmlized files.<br />
+  <br />
+   Click on any name from the <span class="info-xref">Color Theme Selection</span> buffer. Once loaded, you can customize every face defined by the theme in the <span class="info-xref">Customize Face</span> buffer. 
+   Open some files from the <span class="info-xref">Speedbar</span> buffer to see how the would look with your current theme.<br />
+
+  <br />
+   When you are happy with your settings, set a name for your theme in the minibuffer prompt, click the Save button and install it on your
+   .emacs file. 
+  <br/>
+  <br />
+   This site generates a <a target="_blank" href="http://en.wikipedia.org/wiki/Permalink">permalink</a> for each theme you save, allowing you to share them with friends and contribute them for being listed here.
+   <br />
+   <br />
+   Themes are saved as <a target="_blank" href="http://gist.github.com">gists</a> which means they can be reloaded at any time, just give the gist-id to this site after the hash like this: <span id="location"></span>#GIST
+
+  <script type="text/javascript">
+    _.defer(function(){
+       $('span#location').text(location.protocol+'//'+location.host+location.pathname)
+    });
+  </script>
+
+</div>

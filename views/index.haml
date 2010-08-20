@@ -1,0 +1,308 @@
+!!! 5
+%html
+ %head
+  %title (color-theme-select)
+
+  %meta(http-equiv="Content-Type" 
+        content="text/html; charset=UTF-8")
+  %meta(charset="utf-8")
+  %meta(keywords="emacs,color-theme,preview,generator,customize")
+  %meta(name="description" 
+        content="web based emacs color-theme preview and generator")
+  %meta(name="sharethis"
+        content="df2ffe92-2740-4dc9-aa18-3bfbf63efcc4")
+  %meta(name="analytics"
+        content="UA-18030191-1")
+
+  %meta(name="author" content="Victor Hugo Borja")
+  %meta(name="author-email" content="vic.borja@gmail.com")
+  %meta(name="theme-default" content="color-theme-light")
+  %meta(name="theme-light" content="color-theme-light")
+  %meta(name="theme-dark" content="color-theme-dark")
+
+  %link(rel="stylesheet/less" type="text/css" media="all"
+        href="less/index.less")
+  %link(rel="stylesheet/less" type="text/css" media="all"
+        href="less/emacs.less")
+
+  %link(rel="less-always" type="text/css" href="less/always.less")
+  %link(rel="less-light" type="text/css" href="themes/base/less/base-light.less")
+  %link(rel="less-dark" type="text/css" href="themes/base/less/base-dark.less")
+
+  %link(rel="github" type="text/html"
+       content="http://github.com/vic/color-theme-select")
+  %link(rel="github" type="repo"
+       content="http://github.com/vic/color-theme-select.git")
+
+  %link(rel="files-json" type="text/json" href="files.json")
+  %link(rel="themes-base" type="text/json" href="themes/base.json")
+  %link(rel="themes-standard" type="text/json" href="themes/standard.json")
+  %link(rel="themes-featured" type="text/json" href="themes/featured.json")
+  %link(rel="themes-contributed" type="text/json" href="themes/contributed.json")
+  %link(rel="stylesheet" type="text/css" href="colorpicker/css/colorpicker.css")
+
+  %script(type="text/javascript" src="js/less-1.0.33.min.js")
+  %script(type="text/javascript" src="js/requireplugins-jquery-1.4.2.js")
+  %script(type="text/javascript" src="colorpicker/js/colorpicker.js")
+
+  :javascript
+   require(['emacs',
+            'js/liveSearch.js', 
+            'js/jquery.base64.js', 
+            'js/json2.js',
+            ], function(emacs) { emacs.init(); })
+
+  -# :javascript
+  -#  var _gaq = _gaq || [];
+  -#  _gaq.push(['_setAccount', 'UA-18030191-1']);
+  -#  _gaq.push(['_trackPageview']);
+   
+  -#  (function() {
+  -#   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  -#   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  -#   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  -#  })();
+
+  -# %script(type="text/javascript" 
+  -#         src="http://w.sharethis.com/button/buttons.js")
+  -# :javascript
+  -#   stLight.options({      
+  -#     publisher: 'df2ffe92-2740-4dc9-aa18-3bfbf63efcc4' })
+
+ %body#home
+  #wrapper
+
+   #banner
+    %h1.logo
+     %a(title="(color-theme-select)" href="/")
+      %span
+
+   #dock
+    .left
+    %ul
+     %li.selected
+      %a(href="mailto:vic.borja@gmail.com") I
+      %a(target="_blank" href="http://github.com/vic/emacs-starter-kit") &hearts;
+      %a(target="_blank" href="http://www.gnu.org/software/emacs") emacs
+     %li
+      %a(target="_blank" href="http://www.nongnu.org/color-theme") (require 'color-theme)
+     %li
+      %span.st_sharethis_hcount(displayText="Share")
+      %span.st_twitter
+      %span.st_stumbleupon
+      %span.st_reddit
+      %span.st_delicious
+    .right
+
+   #navigation
+    .left
+    %ul
+     %li
+      %a.save
+       M-x <span class="theme-name"></span>
+     %li 
+      %a (contribute-theme)
+    .right
+
+   .frame.fringe
+
+    .frame-left
+
+     .frame-up.buffer-container
+      .buffer.default
+       .faceButtons
+        %a.select-face-at-point(title="Select a face by clicking on it")
+         (edit-face-at-point)
+        %br
+        %a.list-faces-display(title="Display a list of faces defined by current theme")
+         (list-faces-display)
+       %br
+       .faceShow
+        .faceSample
+         %select#faceNames.flatInput
+         #faceSample (sample)
+       %br
+       .faceProps
+        %div 
+         %label.fg Foreground:
+         %span(name="foreground")
+         .pickcolor(name="foreground" 
+            target=".faceProps span[name='foreground']")
+        %div
+         %label.bg Background:
+         %span(name="background")
+         .pickcolor(name="background"
+            target=".faceProps span[name='background']")
+        %div
+         %label(for="family") Family:
+         %input.flatInput.default(name="family" size=15)
+        %div
+         %label(for="foundry") Foundry:
+         %input.flatInput.default(name="foundry" size=12)
+        %div
+         %label(for="width") Width:
+         %select.flatInput.default(name="width")
+          %option compressed
+          %option condensed
+          %option demiexpanded
+          %option expanded
+          %option extracondensed
+          %option extraexpanded
+          %option medium
+          %option narrow
+          %option normal
+          %option regular
+          %option semicondensed
+          %option semiexpanded
+          %option ultracondensed
+          %option ultraexpanded
+          %option wide
+        %div
+         %label(for="height") Height:
+         %input(name="height" size=3)
+        %div
+         %label(for="slant") Slant:
+         %select.flatInput.default(name="slant")
+          %option italic
+          %option oblique
+          %option normal
+          %option roman
+        %div
+         %label(for="underline") Underline:
+         %span
+          %select(name="underline")
+           %option off
+           %option on
+           %option colored
+         .pickcolor(name="underline"
+           target=".faceProps select[name='underline']")
+        %div
+         %label(for="overline") Overline:
+         %select(name="overline")
+          %option off
+          %option on
+          %option colored
+         .pickcolor(name="overline"
+           target=".faceProps select[name='overline']")
+        %div
+         %label(for="strike-through") Strike:
+         %select(name="strike-through")
+          %option off
+          %option on
+          %option colored
+         .pickcolor(name="strike-through"
+           target=".faceProps select[name='strike-through']")
+        %div 
+         %label(for="box:style") Box Style:
+         %select(name="box:style")
+          %option raised
+          %option sunken
+          %option none
+        %div
+         %label(for="box:line-width") Box Width:
+         %input(name="box:line-width" size="2")
+        %div
+         %label(for="box:color") Box Color:
+         %select(name="box:color")
+          %option off
+          %option colored
+         .pickcolor(name="box:color"
+            target=".faceProps select[name='box:color']")
+        
+      .modeline.modeline-inactive.mode-line-inactive
+       %span -U:<span class="modified">%%</span>-
+       %span.modeline-buffer-id.mode-line-buffer-id *Customize Face*
+     
+     .frame-dn
+      #files.buffer.default
+      .modeline.modeline-inactive.mode-line-inactive
+       %span <<
+       %span.modeline-buffer-id.mode-line-buffer-id Speedbar
+       %span >>
+
+    .frame-right
+
+     .frame-up
+      #themes.buffer.default
+       %div
+        %span /-
+        %span.custom-group-tag
+         Customization of the One True Editor.
+        %br
+        %span &nbsp;&nbsp;
+        %span
+         Listing
+         %select.default.flatInput.theme-coll
+          %option standard
+          %option featured
+          %option contributed
+          %option all
+         color themes.
+        %br
+        %span &nbsp;&nbsp;
+        %span.theme-coll-desc.custom-comment-tag
+        %span --------------------\
+        
+        %p Select a theme by clicking on its name.
+        
+        %span.custom-variable-tag Cumulative Themes
+        
+        %button.custom-button(href="#toggle-cumulative") Toggle
+        %span.cumulative-state
+
+        %p.custom-documentation
+         Determines whether new color themes are installed on top
+         of each other.
+         If non-nil, installing a color theme will undo all settings
+         made by previous color themes.
+
+       .results
+       .resets(style="display:none")
+        .theme
+         .name
+          %a.bold(href="#reset-light") [Reset Light]
+         .desc Undo changes, set default light colors
+        .theme
+         .name
+          %a.bold(href="#reset-dark") [Reset Dark]
+         .desc Undo changes, set default dark colors
+       .list  
+      .modeline.mode-line
+       %span -U:<span class="modified">%%</span>-
+       %span.modeline-buffer-id.mode-line-buffer-id
+        *<span class="theme-name">color-theme-select</span>*
+       %span &nbsp; 
+       <span class="mode-line-emphasis theme-coll">standard</span>
+       %span &nbsp; (Color Theme Selection)
+       %span &nbsp; Filter:
+       %input#filter.mode-line.modeline.flatInput(title="Type here to search a theme" placeholder="Search Color Theme")
+
+     .frame-dn
+      #current-buffer.buffer.default
+      .modeline.modeline-inactive.mode-line-inactive
+       %span --:%%-
+       %span#modeline-rest
+
+    .minibuffer.default
+     %span#save.save.minibuffer-prompt Save
+     %span.minibuffer-prompt as: /
+     %input.theme-name.flatInput
+     %span {
+     %span.ido-first-match initrd.img
+     <span>|</span>     
+     %span.ido-subdir bin/
+     <span>|</span>
+     %span.ido-only-match vmlinuz
+     %span }
+
+   %p
+   %p
+   %div(style="float: right;padding-right:12px;")
+    %span 
+     M-x 
+     %a color-theme-select
+    %br
+    %span 
+     2010 
+     %a Victor Hugo Borja.
+

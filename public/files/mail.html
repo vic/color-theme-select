@@ -1,0 +1,55 @@
+<span class="function-name">From:</span> <input class="flatInput default" id="mail-from" value=""></input><br/>
+<span class="function-name">To:</span> <input class="flatInput default" id="mail-to" value=""></input><br/>
+<span class="comment">Subject:</span> <input class="flatInput default" id="mail-subject" value=""></input><br />
+<span class="warning">--text follows this line--</span><br />
+<textarea id="mail-body" cols="100" rows="15" class="flatInput default">
+</textarea>
+<p class="shadow">
+<span class="bold-italic">Note</span>: <br/>
+
+The `<span class="italic">Send</span>' button will actually create a new <a href="http://pastebin.com/" class="link" target="_blank">pastebin</a> with the provided email. Only a link to the pastebin will be sent. Even though the pastebin will be created as private, <span class="font-lock-warning-face">do not send any sensitive data and please dont be evil</span>. <br />
+
+If you want to provide feedback or contact the author of this site, please click <a class="link-visited" href="#mail-author">here</a>.
+</p>
+<a href="#mail-send"><span class="custom-button">Send</span></a> 
+
+
+
+<iframe style="display:none;" name="mail" size="100" ></iframe>
+<form  style="display:none;" target="mail" action="http://pastebin.com/api_public.php" method="post">
+
+<input name="paste_name" />
+<input name="paste_email" />
+<textarea name="paste_code"></textarea>
+<input name="paste_format" value="email" />
+<input name="paste_subdomain" value="color-theme-select-mail" />
+<input name="paste_expire_date" value="N" />
+<input name="paste_private" value="1" />
+
+</form>
+
+<script type="text/javascript">
+  $('a[href="#mail-author"]').click(function(event){
+    event.preventDefault();
+    $('#mail-to').val( $('meta[name="author-email"]').attr('content') )
+    $('#mail-subject').val("Feedback color-theme-select");
+    $('#mail-from').focus();
+  });
+  $('a[href="#mail-send"]').click(function(event){
+    event.preventDefault();
+    $('input[name="paste_email"]').val( $('#mail-to').val() )
+    $('textarea[name="paste_code"]').val( 
+      "From:"+$('#mail-from').val()+"\n"+
+      "To:"+$('#mail-to').val()+"\n"+
+      "Subject:"+$('#mail-subject').val()+"\n"+
+      "\n"+
+      "\n"+
+      $('#mail-body').val() 
+    )
+    $('input[name="paste_name"]').val( $('#mail-subject').val() )
+    $('form[target="mail"]').submit();
+    alert("Mail sent");
+    $('#mail-to, #mail-from, #mail-subject, #mail-body').val('');
+    $('#mail-from').focus();
+  });
+</script>

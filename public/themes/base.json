@@ -1,0 +1,7 @@
+{
+
+  "color-theme-dark": {"desc":["Default colors on dark background"], "mode":"dark"}, 
+  "color-theme-light": {"desc":["Default colors on light background"], "mode":"light"}, 
+  "": "default emacs colors"
+
+}

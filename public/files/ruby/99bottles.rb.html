@@ -1,0 +1,43 @@
+<pre>
+<span class="comment-delimiter"># </span><span class="comment">99 Bottles of beer, in Ruby
+</span><span class="comment-delimiter"># </span><span class="comment">By Victor Borja, Sep 14, 2006
+</span><span class="comment-delimiter"># </span><span class="comment">This one shows my favorite Ruby features:
+</span><span class="comment-delimiter">#   </span><span class="comment">continuations, open classes, singleton classes, blocks and being funny!
+</span>
+<span class="keyword">class</span> <span class="type">Integer</span> <span class="comment-delimiter"># </span><span class="comment">The bottles
+</span>  <span class="keyword">def</span> <span class="function-name">drink;</span> <span class="variable-name">self</span> - 1; <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">class</span> &lt;&lt; song = <span class="variable-name">nil</span>
+  attr_accessor <span class="constant">:wall</span>
+
+  <span class="keyword">def</span> <span class="function-name">bottles</span>
+    (<span class="variable-name">@bottles</span>.zero? ? <span class="string">"no more"</span> : <span class="variable-name">@bottles</span>).to_s &lt;&lt;
+      <span class="string">" bottle"</span> &lt;&lt; (<span class="string">"s"</span> <span class="keyword">unless</span> <span class="variable-name">@bottles</span> == 1).to_s
+  <span class="keyword">end</span>
+  
+  <span class="keyword">def</span> <span class="function-name">of</span>(bottles)
+    <span class="variable-name">@bottles</span> = bottles
+    (<span class="keyword">class</span> &lt;&lt; <span class="variable-name">self</span>; <span class="variable-name">self</span>; <span class="keyword">end</span>).module_eval <span class="keyword">do</span>
+      define_method(<span class="constant">:buy</span>) { bottles }
+    <span class="keyword">end</span>
+    <span class="variable-name">self</span>
+  <span class="keyword">end</span>
+  
+  <span class="keyword">def</span> <span class="function-name">sing</span>(&amp;step)
+    puts <span class="string">"</span><span class="variable-name">#{bottles.capitalize}</span><span class="string"> of beer on the wall, </span><span class="variable-name">#{bottles}</span><span class="string"> of beer."</span>
+    <span class="keyword">if</span> <span class="variable-name">@bottles</span>.zero?
+      print <span class="string">"Go to the store buy some more, "</span>
+      step = method <span class="constant">:buy</span>
+    <span class="keyword">else</span>
+      print <span class="string">"Take one down and pass it around, "</span>
+    <span class="keyword">end</span>
+    <span class="variable-name">@bottles</span> = step[<span class="variable-name">@bottles</span>]
+    puts <span class="string">"</span><span class="variable-name">#{bottles}</span><span class="string"> of beer on the wall."</span>
+    puts <span class="string">""</span> <span class="keyword">or</span> wall.call <span class="keyword">unless</span> step.kind_of? <span class="type">Method</span>
+  <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+callcc { |song.wall| song.of(99) }.sing { |beer| beer.drink }
+</pre>

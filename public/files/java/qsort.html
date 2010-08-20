@@ -1,0 +1,18 @@
+    <pre>
+<span class="comment-delimiter">// </span><span class="comment">Java example
+</span><span class="comment-delimiter">/* </span><span class="comment">quicksort kata from http://codingkata.org/languages */</span>
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="type">void</span> <span class="function-name">qsort</span>(<span class="type">Comparable</span>[] <span class="variable-name">c</span>, <span class="type">int</span> <span class="variable-name">start</span>, <span class="type">int</span> <span class="variable-name">end</span>){
+    <span class="keyword">if</span>(end &lt;= start) <span class="keyword">return</span>;
+    <span class="type">Comparable</span> <span class="variable-name">comp</span> = c[start];
+    <span class="type">int</span> <span class="variable-name">i</span> = start, <span class="variable-name">j</span> = end + 1;
+    <span class="keyword">for</span>(;;){
+        <span class="keyword">do</span> i++; <span class="keyword">while</span>(i&lt;end &amp;&amp; c[i].compareTo(comp)&lt;0);
+        <span class="keyword">do</span> j--; <span class="keyword">while</span>(j&gt;start &amp;&amp; c[j].compareTo(comp)&gt;0);
+        <span class="keyword">if</span>(j &lt;= i) <span class="keyword">break</span>;
+        <span class="type">Comparable</span> <span class="variable-name">tmp</span> = c[i];
+        c[i] = c[j]; c[j] = tmp;
+    }
+    c[start] = c[j]; c[j] = comp;
+    qsort(c, start, j-1); qsort(c, j+1, end);
+}
+</pre>

@@ -1,0 +1,143 @@
+/* ---------
+Emacs css
+-------- */
+
+.frame {
+    margin-top: 50px;
+    font-family: 'Inconsolata', 'Monospace', 'Georgia';
+    font-size: 10pt;
+}
+
+.frame-left {
+    float: left;
+    width: 17em;
+}
+.frame-right {
+
+}
+.frame-up {
+    height: 15em;
+}
+.frame-dn {
+    height: 35em;
+}
+.buffer {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+.modeline-inactive.mode-line-inactive{
+   height: 1.2em;
+   overflow: hidden;
+}
+.modeline,.mode-line {
+   height: 1.2em;
+   overflow: hidden;
+}
+.minibuffer {
+    height: 1.5em;
+}
+.frame-up > .buffer {
+    height: 13.5em;
+}
+.frame-dn > .buffer {
+    height: 33.5em;
+}
+.buffer {
+    overflow: auto;
+}
+div.theme > div.name{
+    float: left;
+    width: 15em;
+    overflow: hidden;
+}
+div.theme > div.desc{
+    overflow: hidden;
+}
+div.listedface > div.name{
+    float: left;
+    width: 25em;
+    overflow: hidden;
+}
+div.listedface > div.desc{
+    overflow: hidden;
+}
+.flatInput  {
+    margin: 0px;
+    border: 0px solid;
+}
+.flatInput:hover{
+    cursor: pointer;
+}
+#editor-logo{
+    float:left;
+    margin-left: 3px;
+    margin-right: 10px;
+}
+.frame-right .frame-up .modeline{
+    position: relative;
+}
+#filter {
+    position: absolute;
+    top: 0px;
+    height: 1em;
+}
+#reload{
+    display:none;
+}
+#loading{
+   
+}
+#shares{
+    display:none;
+}
+#reload span{
+    text-decoration: blink;
+}
+.faceButtons{
+    text-align: center;
+}
+.faceButtons a{
+    overflow: hidden;
+}
+.faceShow{
+    position:relative;
+}
+.faceSample {
+    position: relative;
+}
+#faceSample{
+    text-align: center;
+}
+.faceSample #faceNames{
+    position: absolute;
+    left: 0px;
+    height:1.2em;
+    opacity: 0;
+}
+.faceProps > div {
+  position: relative;
+  margin-bottom: 0.5em;
+}
+.faceProps {
+  input, select {
+    .flatInput;
+  }
+}
+
+.pickcolor {
+  background:url("../images/icon-colorpicker.gif") repeat scroll center top transparent;
+  height:17px;
+  width:18px;
+  position: absolute;
+  top: 0;
+  right: 0.5em;
+}
+.pickcolor:hover{
+  cursor: pointer;
+}
+a:hover, .link:hover, .button:hover, .custom-button:hover{
+  cursor: pointer;
+}
+span.theme-coll{
+  text-transform: capitalize;
+}

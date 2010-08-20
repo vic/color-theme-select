@@ -1,0 +1,30 @@
+{
+
+  "color-theme-awesome": {"desc":["color-theme-awesome"], "mode":"dark"}, 
+  "color-theme-bespin": {"desc":["color-theme-bespin"], "mode":"light"}, 
+  "color-theme-blackboard": {"desc":["Color theme by JD Huntington, based off the TextMate Blackboard theme, created 2008-11-27"], "mode":"dark"}, 
+  "color-theme-chocolate-rain": {"desc":["Chocolate Rain Theme"], "mode":"light"}, 
+  "color-theme-colorblind": {"desc":["color-theme-colorblind"], "mode":"dark"}, 
+  "color-theme-dark-vee": {"desc":["Color theme by vic, created 2006-05-05."], "mode":"dark"}, 
+  "color-theme-dirac": {"desc":["Color theme Dirac - Domenico Delle Side (domenico.delleside AT alcacoop.it),", "inspired by color-theme-galois."], "mode":"dark"}, 
+  "color-theme-github": {"desc":["Color theme by Dudley Flanders, created 2008-07-11."], "mode":"light"}, 
+  "color-theme-hober2": {"desc":["Color theme by Edward O'Connor <ted@oconnor.cx>.", "Like my previous theme, I've attempted to make sure things look", "reasonably similar under console or window system. The colors of", "`color-theme-hober2' are often washed-out variants of the colors", "of `color-theme-hober'.", "Includes antlr, apropos, AUCTeX (font-latex), bbdb, Buffer-menu,", "calendar, change-log, comint, compilation, cperl, custom, darcsum,", "diary, diff, dired, ediff, erc, eshell, filladapt, font-lock, forms,", "gnus, goto-address, help, highline, hl-line, holiday, html-helper,", "hyper-apropos, ibuffer, Info, isearch, jde, makefile, Man, message,", "multi-region, nxml, psvn, sgml, sh, show-paren, show-tabs, slime, sldb,", "speedbar, tex, view, viper, w3m, widget, woman"], "mode":"dark"}, 
+  "color-theme-inkpot": {"desc":["Color theme based on the Inkpot theme. Ported and tweaked by Per Vognsen. More tweaking by Andrew Ellis"], "mode":"dark"}, 
+  "color-theme-ir-black": {"desc":["color-theme-ir-black"], "mode":"dark"}, 
+  "color-theme-merbivore": {"desc":["color-theme-merbivore"], "mode":"dark"}, 
+  "color-theme-railscasts": {"desc":["color-theme-railscasts"], "mode":"dark"}, 
+  "color-theme-slate": {"desc":["Color theme by Justin Smestad, based off the VIM Slate theme, created 2009-06-29"], "mode":"dark"}, 
+  "color-theme-subdued": {"desc":["Subdued color theme for Emacs by Jason Blevins.", "Based on the Tango color palette."], "mode":"dark"}, 
+  "color-theme-tango-2": {"desc":["A color theme based on Tango Palette."], "mode":"dark"}, 
+  "color-theme-tango": {"desc":["A color theme based on Tango Palette."], "mode":"dark"}, 
+  "color-theme-tangosoft": {"desc":["A color theme based on Tango Palette."], "mode":"dark"}, 
+  "color-theme-tangotango": {"desc":["A color theme based on Tango Palette colors."], "mode":"dark"}, 
+  "color-theme-thunk1": {"desc":["color-theme-thunk1"], "mode":"dark"}, 
+  "color-theme-twilight": {"desc":["Color theme by Marcus Crafter, based off the TextMate Twilight theme, created 2008-04-18"], "mode":"dark"}, 
+  "color-theme-vibrant-ink": {"desc":["Emacs Vibrant Ink"], "mode":"dark"}, 
+  "color-theme-wombat": {"desc":["The wombat color theme for Emacs."], "mode":"dark"}, 
+  "color-theme-zen-and-art": {"desc":["Irfn's zen with a bit of art."], "mode":"dark"}, 
+  "color-theme-zenburn": {"desc":["Just some alien fruit salad to keep you in the zone."], "mode":"dark"}, 
+  "": "Featured themes collected from the net"
+
+}

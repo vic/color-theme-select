@@ -1,0 +1,32 @@
+{
+ "Welcome": {
+   "title": "About this site",
+   "file": "welcome.html",
+   "major": "Info"
+ },
+ "*random theme*": {
+   "title": "Select theme randomly",
+   "js": "emacs#selectRandomTheme"
+ },
+ "*load gist*": {
+   "title": "Load a color-theme saved as gist",
+   "js": "emacs#loadGistTheme"
+ },
+ "*mail*": {
+   "title": "Feedback",
+   "file": "mail.html",
+   "major": "Mail"
+ },
+ "java": {
+   "qsort.java": {
+     "title": "QuickSort kata",
+     "file": "java/qsort.html"
+   }
+ },
+ "ruby": {
+   "99bottles.rb": {
+     "title": "The famous song in ruby",
+     "file": "ruby/99bottles.rb.html"
+   }
+ }
+}
