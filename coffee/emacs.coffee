@@ -19,6 +19,16 @@ require.def 'emacs', requires,
   cumulative = false
   current_theme = null
 
+  gup = (name)->
+   regexS = "[\\?&]"+name+"=([^&#]*)";
+   regex = new RegExp ( regexS );
+   tmpURL = window.location.href;
+   results = regex.exec( tmpURL )
+   if( results == null )
+     null
+   else
+     results[1]
+
   download = (url,callback)->
     data = null
     $.ajax
@@ -42,9 +52,10 @@ require.def 'emacs', requires,
     col
 
   emacs.loadGistTheme = ()->
-    url = prompt("Enter Gist ID or URL")
+    url = prompt("Load a color-theme from GitHub Gist.\nEnter Gist ID or URL")
+    return unless url?
     match = url.match(/\d+/)
-    return unless match
+    return if !match || !match[0]
     downloadGistTheme match[0]
 
   downloadGistTheme = (gist)->
@@ -118,7 +129,9 @@ require.def 'emacs', requires,
         button.text('<+>')
 
   loadFile = (file)->
-    file = _.reduce file.split('/'), files, (fs,f)-> fs[f]
+    path = file.split('/')
+    name = path[path.length-1]
+    file = _.reduce path, files, (fs,f)-> fs[f]
     if file.file
       $('#current-buffer').load("/files/#{file.file}")
     if file.js
@@ -134,6 +147,14 @@ require.def 'emacs', requires,
             });
           </script>
         "
+    if file.file
+     modes = [file.major || '']
+     modes = modes.concat(file.minors || [])
+     modeline = """
+     <span class='mode-line-buffer-id'>#{name}</span>
+     %7 L1 (#{modes.join(' ')})
+     """
+     $('#modeline-rest').html(modeline)
 
   emacs.selectRandomTheme = ()->
     names = $("#themes .theme:visible a")
@@ -194,17 +215,20 @@ require.def 'emacs', requires,
     setupThemeSearch()
 
   setInitialTheme = ()->
-    if /#http/.test(location.hash)
-      theme = downloadRemoteTheme location.hash.substring(1)
-    else if /#\d+/.test(location.hash)
-      theme = downloadGistTheme location.hash.substring(1)
-    else if /#/.test(location.hash)
-      theme = downloadLocalTheme location.hash.substring(1)
+    if /#\d+/.test(location.hash)
+      gist = location.hash.substring(1)
+      meta = downloadGistTheme gist
+      hash = gist
+    else if "#{location.hash}".length > 1
+      hash = location.hash.substring(1)
+      meta = downloadLocalTheme hash
     else
-      theme = downloadLocalTheme metaContent('theme-default')
-    installTheme theme, true
+      meta = downloadLocalTheme metaContent('theme-default')
+      hash = meta.model.name
+    installTheme meta, true, hash
 
-  installTheme = (meta, clear)->
+  installTheme = (meta, clear, hash)->
+    hash or= meta.model.name
     base = if meta.mode == 'dark' then base_dark else base_light
 
     unless meta.css
@@ -247,7 +271,7 @@ require.def 'emacs', requires,
 
     customizeFace 'default'
     $('input.theme-name').trigger 'themeChanged'
-    $('input.theme-name').trigger 'themeLoaded'
+    $('input.theme-name').trigger 'themeLoaded', hash
 
   customizeFace = (name)->
     return unless name
@@ -475,7 +499,7 @@ require.def 'emacs', requires,
             ;;   <button class='save custom-button'>(revert-buffer)</button>
             ;; </span>
             ;; <span id='shares'>
-            ;;   <a id='gist-download-el' class='custom-button'></a> | <a id='gist-load' class='link'>Permalink</a> | <a id='gist-link' class='link' target='_blank'>Gist</a> | <a id='share-this' class='custom-button'></a>
+            ;;   <a id='gist-download-el' class='link'>Download</a> | <a id='gist-load' class='link'>Permalink</a> | <a id='gist-link' class='link' target='_blank'>Gist</a> | <a id='share-this' class='link'>Share</a> | <a id='contrib' class='link' title='Send a mail to vic.borja@gmail.com with the gist id for this theme'>Contribute</a>
             ;; </span>
             """
             buffer.push "</span>"
@@ -491,16 +515,14 @@ require.def 'emacs', requires,
             json: JSON.stringify current_theme.model
             less: lezz current_theme.model
           success: (gist) ->
+            location.hash = gist
             name = current_theme.model.name
             $('#gist-link').
-              attr('href', "http://gist.github.com/#{gist}").
-              text('Gist')
+              attr('href', "http://gist.github.com/#{gist}")
             $('#gist-download-el').
-              attr('href', "/gist/#{gist}/elisp/#{name}.el").
-              text('Download emacs-lisp')
-            $('#gist-load').
-              attr('href', "/##{gist}").
-              text('Permalink')
+              attr('href', "/gist/#{gist}/elisp/#{name}.el")
+            $('#gist-load').attr('href', "/##{gist}")
+            $('#contrib').attr('href', "mailto:vic.borja@gmail.com?subject=color-theme-select contribution&body=Please include the theme saved in the following gist: #{gist}")
             if stWidget?
               st = stWidget.addEntry({
                  service: 'sharethis',
@@ -569,8 +591,9 @@ require.def 'emacs', requires,
           $(this).trigger 'themeLoaded'
         else
           $(this).trigger 'themeChanged'
-      themeLoaded: (event)->
+      themeLoaded: (event, hash)->
         $('span.modified').text '%%'
+        location.hash = hash
       themeChanged: (event)->
         $('span.modified').text '**'
         $('#current-buffer #shares').hide()
