@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var fs = require('fs');
+
+require('helpers').helpers.extend(global, require('sys'));
+require('command').run();
