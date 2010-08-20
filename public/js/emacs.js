@@ -58,7 +58,7 @@
       var _b, json_uri, less_uri, meta, model;
       json_uri = ("http://gist.github.com/raw/" + (gist) + "/json");
       less_uri = ("http://gist.github.com/raw/" + (gist) + "/less");
-      model = download(json_uri);
+      model = normalize(download("text/json/" + json_uri));
       meta = {
         model: model,
         name: model.name,

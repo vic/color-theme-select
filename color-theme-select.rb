@@ -12,6 +12,17 @@ get '/' do
   haml :index
 end
 
+get '/download/:mime/:type/http:/*' do
+  uri = 'http://'+params[:splat].first
+  if request.query_string != ""
+    uri += "?" + request.query_string
+  end
+  content_type params[:mime]+"/"+params[:type]
+  response = Net::HTTP.get_response(URI.parse(uri))
+  response.body    
+end
+
+
 get '/download/http:/*' do
   uri = 'http://'+params[:splat].first
   if request.query_string != ""
